@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>InstaDev</title>
+
+  <style>
+
+    /* =========================================
+       CONFIGURAÇÕES GERAIS
+    ========================================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #fafafa;
+      color: #262626;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    input,
+    textarea {
+      font-family: inherit;
+    }
+
+
+    /* =========================================
+       MENU LATERAL
+    ========================================= */
+
+    .sidebar {
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      width: 245px;
+      height: 100vh;
+
+      padding: 35px 25px;
+
+      background-color: white;
+
+      border-right: 1px solid #dbdbdb;
+    }
+
+    .logo {
+      margin-bottom: 45px;
+
+      font-family: cursive;
+      font-size: 28px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+
+      gap: 12px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+
+      gap: 16px;
+
+      width: 100%;
+
+      padding: 13px 10px;
+
+      border-radius: 8px;
+
+      color: #262626;
+
+      font-size: 16px;
+
+      text-align: left;
+
+      transition: 0.2s;
+    }
+
+    .menu-item span {
+      width: 25px;
+
+      font-size: 26px;
+
+      text-align: center;
+    }
+
+    .menu-item:hover {
+      background-color: #f2f2f2;
+    }
+
+
+    /* =========================================
+       CONTEÚDO PRINCIPAL
+    ========================================= */
+
+    .content {
+      width: 630px;
+
+      margin-left: 320px;
+
+      padding-top: 30px;
+    }
+
+
+    /* =========================================
+       STORIES
+    ========================================= */
+
+    .stories {
+      display: flex;
+
+      gap: 18px;
+
+      margin-bottom: 30px;
+
+      overflow: hidden;
+    }
+
+    .story {
+      width: 75px;
+
+      flex-shrink: 0;
+
+      text-align: center;
+
+      font-size: 12px;
+    }
+
+    .story-border {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: 68px;
+      height: 68px;
+
+      margin: auto;
+      margin-bottom: 5px;
+
+      border-radius: 50%;
+
+      background: linear-gradient(
+        45deg,
+        #feda75,
+        #fa7e1e,
+        #d62976,
+        #962fbf,
+        #4f5bd5
+      );
+    }
+
+    .story img {
+      width: 60px;
+      height: 60px;
+
+      border: 3px solid white;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+    }
+
+
+    /* =========================================
+       FEED
+    ========================================= */
+
+    .feed {
+      width: 470px;
+
+      margin: auto;
+    }
+
+
+    /* =========================================
+       PUBLICAÇÃO
+    ========================================= */
+
+    .post {
+      margin-bottom: 35px;
+
+      padding-bottom: 20px;
+
+      border-bottom: 1px solid #dbdbdb;
+    }
+
+    .post-header {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 10px 0;
+    }
+
+    .post-user {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .post-user img {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+    }
+
+    .post-user div {
+      display: flex;
+
+      flex-direction: column;
+
+      font-size: 13px;
+    }
+
+    .post-user span {
+      margin-top: 2px;
+
+      color: #737373;
+
+      font-size: 11px;
+    }
+
+
+    /* =========================================
+       MENU POST
+    ========================================= */
+
+    .post-menu {
+      position: relative;
+    }
+
+    .more {
+      padding: 5px;
+
+      font-size: 18px;
+    }
+
+    .post-menu-options {
+      position: absolute;
+
+      top: 30px;
+      right: 0;
+
+      z-index: 10;
+
+      display: flex;
+
+      flex-direction: column;
+
+      width: 120px;
+
+      overflow: hidden;
+
+      background-color: white;
+
+      border: 1px solid #dbdbdb;
+
+      border-radius: 6px;
+
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-menu-options button {
+      padding: 10px;
+
+      text-align: left;
+    }
+
+    .post-menu-options button:hover {
+      background-color: #f5f5f5;
+    }
+
+    .btn-delete {
+      color: #ed4956;
+    }
+
+
+    /* =========================================
+       IMAGEM DO POST
+    ========================================= */
+
+    .post-image {
+      display: block;
+
+      width: 100%;
+      height: 470px;
+
+      border: 1px solid #dbdbdb;
+
+      border-radius: 4px;
+
+      object-fit: cover;
+    }
+
+
+    /* =========================================
+       BOTÕES DE AÇÃO
+    ========================================= */
+
+    .post-actions {
+      display: flex;
+
+      justify-content: space-between;
+
+      padding: 10px 0;
+    }
+
+    .post-actions button {
+      margin-right: 10px;
+
+      font-size: 27px;
+    }
+
+    .post-actions button:hover {
+      opacity: 0.5;
+    }
+
+    .like-button.liked {
+      color: #ed4956;
+    }
+
+
+    /* =========================================
+       INFORMAÇÕES DO POST
+    ========================================= */
+
+    .post-info {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 8px;
+
+      font-size: 14px;
+    }
+
+    .post-date {
+      margin-top: 3px;
+
+      color: #737373;
+
+      font-size: 10px;
+    }
+
+
+    /* =========================================
+       COMENTÁRIOS
+    ========================================= */
+
+    .comments-list {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 7px;
+    }
+
+    .comment {
+      display: flex;
+
+      align-items: center;
+
+      gap: 5px;
+    }
+
+    .comment-text {
+      flex: 1;
+    }
+
+    .comment-actions {
+      display: flex;
+
+      gap: 8px;
+
+      margin-left: auto;
+    }
+
+    .comment-actions button {
+      color: #737373;
+
+      font-size: 11px;
+    }
+
+    .comment-actions button:hover {
+      color: #262626;
+    }
+
+
+    /* =========================================
+       FORMULÁRIO COMENTÁRIO
+    ========================================= */
+
+    .comment-form {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-top: 5px;
+
+      padding-top: 8px;
+
+      border-top: 1px solid #efefef;
+    }
+
+    .comment-form input {
+      flex: 1;
+
+      padding: 8px 0;
+
+      border: none;
+
+      outline: none;
+
+      background-color: transparent;
+    }
+
+    .comment-form button {
+      color: #0095f6;
+
+      font-size: 13px;
+
+      font-weight: bold;
+    }
+
+
+    /* =========================================
+       LADO DIREITO
+    ========================================= */
+
+    .suggestions {
+      position: fixed;
+
+      top: 45px;
+      left: 980px;
+
+      width: 320px;
+    }
+
+    .current-user,
+    .suggestion {
+      display: flex;
+
+      align-items: center;
+
+      margin-bottom: 18px;
+    }
+
+    .current-user img {
+      width: 55px;
+      height: 55px;
+
+      margin-right: 12px;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+    }
+
+    .current-user div,
+    .suggestion div {
+      display: flex;
+
+      flex: 1;
+
+      flex-direction: column;
+    }
+
+    .current-user span,
+    .suggestion span {
+      margin-top: 3px;
+
+      color: #737373;
+
+      font-size: 12px;
+    }
+
+    .current-user a,
+    .suggestion a {
+      color: #0095f6;
+
+      font-size: 12px;
+
+      font-weight: bold;
+    }
+
+    .suggestions-title {
+      display: flex;
+
+      justify-content: space-between;
+
+      margin: 25px 0;
+
+      color: #737373;
+
+      font-size: 14px;
+    }
+
+    .suggestion img {
+      width: 40px;
+      height: 40px;
+
+      margin-right: 12px;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+    }
+
+
+    /* =========================================
+       MODAL
+    ========================================= */
+
+    .modal {
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      z-index: 100;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      width: 100%;
+      height: 100%;
+
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal-content {
+      width: 450px;
+
+      overflow: hidden;
+
+      background-color: white;
+
+      border-radius: 10px;
+    }
+
+    .modal-header {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 15px 20px;
+
+      border-bottom: 1px solid #dbdbdb;
+    }
+
+    .modal-body {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 10px;
+
+      padding: 20px;
+    }
+
+    .modal-body input,
+    .modal-body textarea {
+      padding: 10px;
+
+      border: 1px solid #dbdbdb;
+
+      border-radius: 5px;
+
+      outline: none;
+    }
+
+    .modal-body textarea {
+      min-height: 100px;
+
+      resize: vertical;
+    }
+
+    .btn-publicar {
+      padding: 10px;
+
+      background-color: #0095f6;
+
+      color: white;
+
+      border-radius: 5px;
+
+      font-weight: bold;
+    }
+
+
+    /* =========================================
+       RESPONSIVIDADE
+    ========================================= */
+
+    @media (max-width: 1100px) {
+
+      .suggestions {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 800px) {
+
+      .sidebar {
+        width: 75px;
+
+        padding: 30px 15px;
+      }
+
+      .menu-item {
+        justify-content: center;
+
+        font-size: 0;
+      }
+
+      .content {
+        width: calc(100% - 75px);
+
+        margin-left: 75px;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .sidebar {
+        display: none;
+      }
+
+      .content {
+        width: 100%;
+
+        margin-left: 0;
+
+        padding: 15px;
+      }
+
+      .feed {
+        width: 100%;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================
+       MENU LATERAL
+  ========================================== -->
+
+  <aside class="sidebar">
+
+    <h1 class="logo">
+      InstaDev
+    </h1>
+
+    <nav class="menu">
+
+      <a href="#" class="menu-item">
+        <span>⌂</span>
+        Início
+      </a>
+
+      <a href="#" class="menu-item">
+        <span>⌕</span>
+        Pesquisar
+      </a>
+
+      <a href="#" class="menu-item">
+        <span>◉</span>
+        Explorar
+      </a>
+
+      <a href="#" class="menu-item">
+        <span>✉</span>
+        Mensagens
+      </a>
+
+      <a href="#" class="menu-item">
+        <span>♡</span>
+        Notificações
+      </a>
+
+      <button
+        class="menu-item"
+        id="btnAbrirCriacao"
+      >
+        <span>＋</span>
+        Criar
+      </button>
+
+      <a href="#" class="menu-item">
+        <span>○</span>
+        Perfil
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+  <!-- =========================================
+       CONTEÚDO
+  ========================================== -->
+
+  <main class="content">
+
+    <!-- STORIES -->
+
+    <section class="stories">
+
+      <div class="story">
+
+        <div class="story-border">
+
+          <img
+            src="https://i.pravatar.cc/150?img=11"
+          >
+
+        </div>
+
+        <span>
+          gustavo
+        </span>
+
+      </div>
+
+
+      <div class="story">
+
+        <div class="story-border">
+
+          <img
+            src="https://i.pravatar.cc/150?img=12"
+          >
+
+        </div>
+
+        <span>
+          maria
+        </span>
+
+      </div>
+
+
+      <div class="story">
+
+        <div class="story-border">
+
+          <img
+            src="https://i.pravatar.cc/150?img=13"
+          >
+
+        </div>
+
+        <span>
+          joao
+        </span>
+
+      </div>
+
+
+      <div class="story">
+
+        <div class="story-border">
+
+          <img
+            src="https://i.pravatar.cc/150?img=14"
+          >
+
+        </div>
+
+        <span>
+          ana
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- FEED GERADO PELO JS -->
+
+    <section
+      class="feed"
+      id="feed"
+    >
+    </section>
+
+  </main>
+
+
+  <!-- =========================================
+       SUGESTÕES
+  ========================================== -->
+
+  <aside class="suggestions">
+
+    <div class="current-user">
+
+      <img
+        src="https://i.pravatar.cc/150?img=11"
+      >
+
+      <div>
+
+        <strong>
+          gustavo.dev
+        </strong>
+
+        <span>
+          Gustavo
+        </span>
+
+      </div>
+
+      <a href="#">
+        Mudar
+      </a>
+
+    </div>
+
+
+    <div class="suggestions-title">
+
+      <strong>
+        Sugestões para você
+      </strong>
+
+      <a href="#">
+        Ver tudo
+      </a>
+
+    </div>
+
+
+    <div class="suggestion">
+
+      <img
+        src="https://i.pravatar.cc/150?img=20"
+      >
+
+      <div>
+
+        <strong>
+          carlos.dev
+        </strong>
+
+        <span>
+          Sugestão para você
+        </span>
+
+      </div>
+
+      <a href="#">
+        Seguir
+      </a>
+
+    </div>
+
+
+    <div class="suggestion">
+
+      <img
+        src="https://i.pravatar.cc/150?img=25"
+      >
+
+      <div>
+
+        <strong>
+          juliana.tech
+        </strong>
+
+        <span>
+          Seguido por maria
+        </span>
+
+      </div>
+
+      <a href="#">
+        Seguir
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================================
+       MODAL NOVA PUBLICAÇÃO
+  ========================================== -->
+
+  <div
+    class="modal hidden"
+    id="modalCriacao"
+  >
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h2>
+          Nova publicação
+        </h2>
+
+        <button id="btnFecharCriacao">
+          ✕
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <label>
+          URL da imagem
+        </label>
+
+        <input
+          type="text"
+          id="imagemPost"
+          placeholder="https://..."
+        >
+
+
+        <label>
+          Legenda
+        </label>
+
+        <textarea
+          id="legendaPost"
+          placeholder="Digite a legenda..."
+        ></textarea>
+
+
+        <button
+          class="btn-publicar"
+          id="btnPublicar"
+        >
+          Publicar
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    // ========================================
+    // DADOS
+    // ========================================
+
+    const posts = [
+
+      {
+        id: 1,
+
+        usuario: "gustavo.dev",
+
+        local: "Santa Catarina",
+
+        fotoPerfil:
+          "https://i.pravatar.cc/150?img=11",
+
+        imagem:
+          "https://picsum.photos/seed/programacao/600/600",
+
+        legenda:
+          "Mais um dia programando! 💻 🚀",
+
+        curtidas: 248,
+
+        curtiu: false,
+
+        data: "HÁ 2 HORAS",
+
+        comentarios: [
+
+          {
+            id: 1,
+
+            usuario: "maria",
+
+            texto:
+              "Ficou muito bom! 👏"
+          },
+
+          {
+            id: 2,
+
+            usuario: "joao",
+
+            texto:
+              "Projeto ficou top!"
+          }
+
+        ]
+
+      },
+
+
+      {
+        id: 2,
+
+        usuario: "ana.codes",
+
+        local: "Brasil",
+
+        fotoPerfil:
+          "https://i.pravatar.cc/150?img=14",
+
+        imagem:
+          "https://picsum.photos/seed/computador/600/600",
+
+        legenda:
+          "Preparando um projeto novo! 🔥",
+
+        curtidas: 531,
+
+        curtiu: false,
+
+        data: "HÁ 5 HORAS",
+
+        comentarios: [
+
+          {
+            id: 3,
+
+            usuario: "gustavo.dev",
+
+            texto:
+              "Boa! 🚀"
+          }
+
+        ]
+
+      }
+
+    ];
+
+
+    // ========================================
+    // BUSCAR POST
+    // ========================================
+
+    function buscarPost(idPost) {
+
+      return posts.find(
+        function(post) {
+
+          return post.id === idPost;
+
+        }
+      );
+
+    }
+
+
+    // ========================================
+    // RENDERIZAR POSTS
+    // ========================================
+
+    function renderizarPosts() {
+
+      const feed =
+        document.querySelector("#feed");
+
+
+      feed.innerHTML = "";
+
+
+      for (const post of posts) {
+
+
+        // -----------------------------
+        // COMENTÁRIOS
+        // -----------------------------
+
+        let comentariosHTML = "";
+
+
+        for (
+          const comentario
+          of post.comentarios
+        ) {
+
+          comentariosHTML += `
+
+            <div class="comment">
+
+              <div class="comment-text">
+
+                <strong>
+                  ${comentario.usuario}
+                </strong>
+
+                ${comentario.texto}
+
+              </div>
+
+
+              <div class="comment-actions">
+
+                <button
+                  onclick="
+                    editarComentario(
+                      ${post.id},
+                      ${comentario.id}
+                    )
+                  "
+                >
+                  Editar
+                </button>
+
+
+                <button
+                  onclick="
+                    removerComentario(
+                      ${post.id},
+                      ${comentario.id}
+                    )
+                  "
+                >
+                  Excluir
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+
+        // -----------------------------
+        // CRIAR ARTICLE
+        // -----------------------------
+
+        const article =
+          document.createElement(
+            "article"
+          );
+
+
+        article.classList.add(
+          "post"
+        );
+
+
+        article.innerHTML = `
+
+          <header class="post-header">
+
+            <div class="post-user">
+
+              <img
+                src="${post.fotoPerfil}"
+              >
+
+
+              <div>
+
+                <strong>
+                  ${post.usuario}
+                </strong>
+
+                <span>
+                  ${post.local}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="post-menu">
+
+              <button
+                class="more"
+                onclick="
+                  abrirMenuPost(${post.id})
+                "
+              >
+                •••
+              </button>
+
+
+              <div
+                class="
+                  post-menu-options
+                  hidden
+                "
+                id="menu-${post.id}"
+              >
+
+                <button
+                  onclick="
+                    editarPost(${post.id})
+                  "
+                >
+                  Editar
+                </button>
+
+
+                <button
+                  class="btn-delete"
+                  onclick="
+                    removerPost(${post.id})
+                  "
+                >
+                  Excluir
+                </button>
+
+              </div>
+
+            </div>
+
+          </header>
+
+
+          <img
+            class="post-image"
+            src="${post.imagem}"
+          >
+
+
+          <div class="post-actions">
+
+            <div>
+
+              <button
+                class="
+                  like-button
+                  ${post.curtiu
+                    ? "liked"
+                    : ""
+                  }
+                "
+                onclick="
+                  curtirPost(${post.id})
+                "
+              >
+
+                ${post.curtiu
+                  ? "♥"
+                  : "♡"
+                }
+
+              </button>
+
+
+              <button>
+                ◯
+              </button>
+
+
+              <button>
+                ➤
+              </button>
+
+            </div>
+
+
+            <button>
+              ▱
+            </button>
+
+          </div>
+
+
+          <div class="post-info">
+
+            <strong>
+              ${post.curtidas}
+              curtidas
+            </strong>
+
+
+            <p>
+
+              <strong>
+                ${post.usuario}
+              </strong>
+
+              ${post.legenda}
+
+            </p>
+
+
+            <div class="comments-list">
+
+              ${comentariosHTML}
+
+            </div>
+
+
+            <form
+              class="comment-form"
+              onsubmit="
+                enviarComentario(
+                  event,
+                  ${post.id}
+                )
+              "
+            >
+
+              <input
+                type="text"
+                name="comentario"
+                placeholder="
+                  Adicione um comentário...
+                "
+                autocomplete="off"
+              >
+
+
+              <button type="submit">
+                Publicar
+              </button>
+
+            </form>
+
+
+            <span class="post-date">
+
+              ${post.data}
+
+            </span>
+
+          </div>
+
+        `;
+
+
+        feed.appendChild(
+          article
+        );
+
+      }
+
+    }
+
+
+    // ========================================
+    // CURTIR POST
+    // ========================================
+
+    function curtirPost(idPost) {
+
+      const post =
+        buscarPost(idPost);
+
+
+      if (post.curtiu) {
+
+        post.curtiu = false;
+
+        post.curtidas--;
+
+      } else {
+
+        post.curtiu = true;
+
+        post.curtidas++;
+
+      }
+
+
+      renderizarPosts();
+
+    }
+
+
+    // ========================================
+    // ADICIONAR COMENTÁRIO
+    // ========================================
+
+    function adicionarComentario(
+      idPost,
+      texto
+    ) {
+
+      const post =
+        buscarPost(idPost);
+
+
+      const novoComentario = {
+
+        id: Date.now(),
+
+        usuario:
+          "gustavo.dev",
+
+        texto: texto
+
+      };
+
+
+      post.comentarios.push(
+        novoComentario
+      );
+
+
+      renderizarPosts();
+
+    }
+
+
+    // ========================================
+    // FORMULÁRIO COMENTÁRIO
+    // ========================================
+
+    function enviarComentario(
+      event,
+      idPost
+    ) {
+
+      event.preventDefault();
+
+
+      const formulario =
+        event.target;
+
+
+      const input =
+        formulario.querySelector(
+          'input[name="comentario"]'
+        );
+
+
+      const texto =
+        input.value.trim();
+
+
+      if (texto === "") {
+
+        return;
+
+      }
+
+
+      adicionarComentario(
+        idPost,
+        texto
+      );
+
+    }
+
+
+    // ========================================
+    // REMOVER COMENTÁRIO
+    // ========================================
+
+    function removerComentario(
+      idPost,
+      idComentario
+    ) {
+
+      const post =
+        buscarPost(idPost);
+
+
+      const indice =
+        post.comentarios.findIndex(
+          function(comentario) {
+
+            return (
+              comentario.id
+              === idComentario
+            );
+
+          }
+        );
+
+
+      if (indice === -1) {
+
+        return;
+
+      }
+
+
+      post.comentarios.splice(
+        indice,
+        1
+      );
+
+
+      renderizarPosts();
+
+    }
+
+
+    // ========================================
+    // EDITAR COMENTÁRIO
+    // ========================================
+
+    function editarComentario(
+      idPost,
+      idComentario
+    ) {
+
+      const post =
+        buscarPost(idPost);
+
+
+      const comentario =
+        post.comentarios.find(
+          function(comentario) {
+
+            return (
+              comentario.id
+              === idComentario
+            );
+
+          }
+        );
+
+
+      const novoTexto =
+        prompt(
+          "Editar comentário:",
+          comentario.texto
+        );
+
+
+      if (novoTexto === null) {
+
+        return;
+
+      }
+
+
+      if (
+        novoTexto.trim()
+        === ""
+      ) {
+
+        return;
+
+      }
+
+
+      comentario.texto =
+        novoTexto.trim();
+
+
+      renderizarPosts();
+
+    }
+
+
+    // ========================================
+    // ADICIONAR POST
+    // ========================================
+
+    function adicionarPost(
+      imagem,
+      legenda
+    ) {
+
+      const novoPost = {
+
+        id: Date.now(),
+
+        usuario:
+          "gustavo.dev",
+
+        local:
+          "Santa Catarina",
+
+        fotoPerfil:
+          "https://i.pravatar.cc/150?img=11",
+
+        imagem: imagem,
+
+        legenda: legenda,
+
+        curtidas: 0,
+
+        curtiu: false,
+
+        data:
+          "AGORA",
+
+        comentarios: []
+
+      };
+
+
+      posts.unshift(
+        novoPost
+      );
+
+
+      renderizarPosts();
+
+    }
+
+
+    // ========================================
+    // REMOVER POST
+    // ========================================
+
+    function removerPost(idPost) {
+
+      const resposta =
+        confirm(
+          "Deseja excluir essa publicação?"
+        );
+
+
+      if (!resposta) {
+
+        return;
+
+      }
+
+
+      const indice =
+        posts.findIndex(
+          function(post) {
+
+            return (
+              post.id
+              === idPost
+            );
+
+          }
+        );
+
+
+      posts.splice(
+        indice,
+        1
+      );
+
+
+      renderizarPosts();
+
+    }
+
+
+    // ========================================
+    // EDITAR POST
+    // ========================================
+
+    function editarPost(idPost) {
+
+      const post =
+        buscarPost(idPost);
+
+
+      const novaLegenda =
+        prompt(
+          "Editar legenda:",
+          post.legenda
+        );
+
+
+      if (novaLegenda === null) {
+
+        return;
+
+      }
+
+
+      if (
+        novaLegenda.trim()
+        === ""
+      ) {
+
+        return;
+
+      }
+
+
+      post.legenda =
+        novaLegenda.trim();
+
+
+      renderizarPosts();
+
+    }
+
+
+    // ========================================
+    // ABRIR MENU DO POST
+    // ========================================
+
+    function abrirMenuPost(idPost) {
+
+      const menu =
+        document.querySelector(
+          "#menu-" + idPost
+        );
+
+
+      menu.classList.toggle(
+        "hidden"
+      );
+
+    }
+
+
+    // ========================================
+    // ELEMENTOS DO MODAL
+    // ========================================
+
+    const modalCriacao =
+      document.querySelector(
+        "#modalCriacao"
+      );
+
+
+    const btnAbrirCriacao =
+      document.querySelector(
+        "#btnAbrirCriacao"
+      );
+
+
+    const btnFecharCriacao =
+      document.querySelector(
+        "#btnFecharCriacao"
+      );
+
+
+    const btnPublicar =
+      document.querySelector(
+        "#btnPublicar"
+      );
+
+
+    const imagemPost =
+      document.querySelector(
+        "#imagemPost"
+      );
+
+
+    const legendaPost =
+      document.querySelector(
+        "#legendaPost"
+      );
+
+
+    // ========================================
+    // ABRIR MODAL
+    // ========================================
+
+    btnAbrirCriacao.addEventListener(
+      "click",
+      function() {
+
+        modalCriacao.classList.remove(
+          "hidden"
+        );
+
+      }
+    );
+
+
+    // ========================================
+    // FECHAR MODAL
+    // ========================================
+
+    btnFecharCriacao.addEventListener(
+      "click",
+      function() {
+
+        modalCriacao.classList.add(
+          "hidden"
+        );
+
+      }
+    );
+
+
+    // ========================================
+    // PUBLICAR NOVO POST
+    // ========================================
+
+    btnPublicar.addEventListener(
+      "click",
+      function() {
+
+        const imagem =
+          imagemPost.value.trim();
+
+
+        const legenda =
+          legendaPost.value.trim();
+
+
+        if (
+          imagem === ""
+          ||
+          legenda === ""
+        ) {
+
+          alert(
+            "Preencha imagem e legenda."
+          );
+
+          return;
+
+        }
+
+
+        adicionarPost(
+          imagem,
+          legenda
+        );
+
+
+        imagemPost.value = "";
+
+        legendaPost.value = "";
+
+
+        modalCriacao.classList.add(
+          "hidden"
+        );
+
+      }
+    );
+
+
+    // ========================================
+    // INICIAR O SITE
+    // ========================================
+
+    renderizarPosts();
+
+  </script>
+
+</body>
+</html>
